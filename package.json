@@ -1,0 +1,24 @@
+{
+  "name": "instameme",
+  "version": "1.0.0",
+  "description": "read the title kid",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/S-W-dev/InstaMeme.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/S-W-dev/InstaMeme/issues"
+  },
+  "homepage": "https://github.com/S-W-dev/InstaMeme#readme",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "random-puppy": "^1.1.0",
+    "twit": "^2.2.11"
+  }
+}
