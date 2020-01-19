@@ -1,4 +1,4 @@
-module.exports {
+module.exports = {
     keys = {
         consumer_key: "vZPGdk5EkRkuDeGG7uqBceESi",
         consumer_secret: "fwCSHh03iJmlkNsNWGAlOSgrapL3SfGNrzh8RBISNTY9wuci5c",
