@@ -4,18 +4,54 @@ const Twit = require('twit');
 const fs = require('fs');
 const puppy = require('random-puppy');
 
+    const request = require('request');
 
+    var download = function (uri, filename, callback) {
+        request.head(uri, function (err, res, body) {
+            console.log('content-type:', res.headers['content-type']);
+            console.log('content-length:', res.headers['content-length']);
+
+            request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+        });
+    };
+
+    
 let T = new Twit({
     consumer_key: "2RMOfGuJNvv2ftD0BIJTgMQo1",
     consumer_secret: "eopLdWv6Gouj7DSgCdvbsUgrwJAdvG7NdSSB8LwyVqyaLdq6W1",
     access_token: "1218731766480945154-7QevfjiiX7UUX7zIwgRIBzWoZFJijs",
     access_token_secret: "EEwFgYE4S1QJlEezgFaFPTeivRqYHaGZU0kX3fAoqnovd"
 })
+getMeme();
+var b64content;
+setTimeout(() => {
+    b64content = fs.readFileSync("./google.png", {
+        encoding: 'base64'
+    });
+}, 5000);
 
-var b64content = fs.readFileSync(getMeme(), {
-    encoding: 'base64'
-})
 
+function getMeme() {
+    puppy().then(url => {
+        download(url, 'google.png', function () {
+            console.log('done');
+        });
+
+    })
+    setTimeout(() => {
+        return "./google.png"
+    }, 5000)
+
+
+}
+
+function getText() {
+
+    return "When you realize WWIII isn't a game";
+
+}
+
+function post() {
 // first we must post the media to Twitter
 T.post('media/upload', {
     media_data: b64content
@@ -45,16 +81,11 @@ T.post('media/upload', {
         }
     })
 })
-
-
-let getMeme = () => {
-
-
-
 }
 
-let getText = () => {
 
 
 
-}
+setTimeout(() => {
+    post();
+}, 15000);
