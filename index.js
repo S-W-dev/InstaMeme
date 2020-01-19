@@ -4,9 +4,12 @@ const puppy = require('random-puppy');
 const request = require('request');
 const keys = require('./keys')
 
-var arr = ["For When the Intensity Isn't Intense Enough", "The Most Accurate Way to Cry", "This Can't Be Right", "Closed-Caption Bullying", "Firefighters Are the Bravest Americans", "The Only Way the Deaf Can Understand Tennis", "Damn Loud-Ass Spiders", "Or 'The Sounds of Cannibalistic Implications'", "Like a Real Man", "Doctor Who Villain Emulates Not Dogs", "D'Awww", "The Darkest, Most Violent Vegetable-Based Kids Show", "Stickin It to the Man", "Easily the Most Traumatizing Kind of Stealing", "[Insert Monster Mash Joke]", "This Is Called a Snart", "Because She Is That Much Worse Than Oliver", "This Is Now My Desktop Background", "Stupid Baby, Serves Him Right", "Your Own Recipe Right in the Comfort of Your Very Own Home!"]
-
-
+var arr = ["For When the Intensity Isn't Intense Enough", "The Most Accurate Way to Cry", "This Can't Be Right", "Closed-Caption Bullying", "Firefighters Are the Bravest Americans", "The Only Way the Deaf Can Understand Tennis", "LOL this reminds me of Donald Trump", "Or 'The Sounds of Cannibalistic Implications'", "Like a Real Man", "Doctor Who Villain Emulates Not Dogs", "D'Awww", "The Darkest, Most Violent Vegetable-Based Kids Show", "Stickin It to the Man", "Easily the Most Traumatizing Kind of Stealing", "[Insert Monster Mash Joke]", "This Is Called a Snart", "Because She Is That Much Worse Than Oliver", "This Is Now My Desktop Background", "Stupid Baby, Serves Him Right", "Your Own Recipe Right in the Comfort of Your Very Own Home!"]
+var arr2 = ["http://via.placeholder.com/640x360", "https://www.fillmurray.com/640/360", "https://loremflickr.com/640/360", "https://baconmockup.com/640/360", "https://placekitten.com/640/360", "https://placebeard.it/640x360", "http://lorempixel.com/640/360", "https://www.placecage.com/640/360", "http://placeimg.com/640/360/any", "https://placebear.com/640/360", "https://www.stevensegallery.com/640/360", "https://picsum.photos/640/360"];
+function random(mn, mx) {
+    return Math.random() * (mx - mn) + mn;
+}
+var thelink;
 var download = function (uri, filename, callback) {
         request.head(uri, function (err, res, body) {
             console.log('content-type:', res.headers['content-type']);
@@ -19,7 +22,7 @@ let T = new Twit(keys.keys)
 var b64content;
 function getMeme() {
     puppy().then(url => {
-        download("https://picsum.photos/200", 'google.png', function () {
+        download(Thelink, 'google.png', function () {
             console.log('done downloading');
             b64content = fs.readFileSync('./google.png', {
                 encoding: 'base64'
@@ -34,10 +37,19 @@ function getMeme() {
 var Thetext = "skrt";
 getMeme();
 getText();
+getLink()
 
 function getText() {
 
-    Thetext = "Iran: \nUs: ????";
+    Thetext = arr[Math.floor(random(1, arr.length))-1];
+    console.log(Thetext)
+
+}
+
+function getLink() {
+
+    Thelink = arr2[Math.floor(random(1, arr2.length))-1];
+    console.log(Thelink);
 
 }
 
