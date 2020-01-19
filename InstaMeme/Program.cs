@@ -41,7 +41,7 @@ namespace InstaMeme {
                 Console.WriteLine("Error Logging In!\n" + logInRequest.Info.Message);
         }
         public static async void Post(IInstaApi api) {
-            api.UploadPhotoAsync();
+            api.UploadPhotoAsync("/Res/FirstMeme.png", "This is a meme");
         }
     }
 }
