@@ -20,7 +20,7 @@ namespace InstaMeme {
         private static IInstaApi api;
 
         static void Main(string[] args) {
-            new discord().MainAsync().GetAwaiter().GetResult();
+        new discord().MainAsync().GetAwaiter().GetResult();
             user = new UserSessionData();
             user.UserName = username;
             user.Password = password;
@@ -34,10 +34,14 @@ namespace InstaMeme {
                 .Build();
 
             var logInRequest = await api.LoginAsync();
-            if (logInRequest.Succeeded)
+            if (logInRequest.Succeeded) {
                 Console.WriteLine("Logged In!");
-            else
+                Post(api);
+            } else
                 Console.WriteLine("Error Logging In!\n" + logInRequest.Info.Message);
+        }
+        public static async void Post(IInstaApi api) {
+            api.UploadPhotoAsync();
         }
     }
 }
