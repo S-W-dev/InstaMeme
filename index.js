@@ -3,6 +3,9 @@ const fs = require('fs');
 const puppy = require('random-puppy');
 const request = require('request');
 const keys = require('./keys')
+
+var arr = ["For When the Intensity Isn't Intense Enough", "The Most Accurate Way to Cry", "This Can't Be Right", "Closed-Caption Bullying", "Firefighters Are the Bravest Americans", "The Only Way the Deaf Can Understand Tennis", "Damn Loud-Ass Spiders", "Or 'The Sounds of Cannibalistic Implications'", "Like a Real Man", "Doctor Who Villain Emulates Not Dogs", "D'Awww", "The Darkest, Most Violent Vegetable-Based Kids Show", "Stickin It to the Man", "Easily the Most Traumatizing Kind of Stealing", "[Insert Monster Mash Joke]", "This Is Called a Snart", "Because She Is That Much Worse Than Oliver", "This Is Now My Desktop Background", "Stupid Baby, Serves Him Right", "Your Own Recipe Right in the Comfort of Your Very Own Home!"]
+
 var download = function (uri, filename, callback) {
         request.head(uri, function (err, res, body) {
             console.log('content-type:', res.headers['content-type']);
