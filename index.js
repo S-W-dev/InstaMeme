@@ -1,53 +1,39 @@
-console.log('Starting up!');
-
 const Twit = require('twit');
 const fs = require('fs');
 const puppy = require('random-puppy');
-
-    const request = require('request');
-
-    var download = function (uri, filename, callback) {
+const request = require('request');
+const keys = require('./keys')
+var download = function (uri, filename, callback) {
         request.head(uri, function (err, res, body) {
             console.log('content-type:', res.headers['content-type']);
             console.log('content-length:', res.headers['content-length']);
 
             request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
         });
-    };
-
-    
-let T = new Twit({
-    consumer_key: "2RMOfGuJNvv2ftD0BIJTgMQo1",
-    consumer_secret: "eopLdWv6Gouj7DSgCdvbsUgrwJAdvG7NdSSB8LwyVqyaLdq6W1",
-    access_token: "1218731766480945154-7QevfjiiX7UUX7zIwgRIBzWoZFJijs",
-    access_token_secret: "EEwFgYE4S1QJlEezgFaFPTeivRqYHaGZU0kX3fAoqnovd"
-})
-getMeme();
+};  
+let T = new Twit(keys.keys)
 var b64content;
-setTimeout(() => {
-    b64content = fs.readFileSync("./google.png", {
-        encoding: 'base64'
-    });
-}, 5000);
-
-
 function getMeme() {
     puppy().then(url => {
         download(url, 'google.png', function () {
-            console.log('done');
+            console.log('done downloading');
+            b64content = fs.readFileSync('./google.png', {
+                encoding: 'base64'
+            })
+            post();
         });
 
     })
-    setTimeout(() => {
-        return "./google.png"
-    }, 5000)
-
 
 }
 
+var Thetext = "skrt";
+getMeme();
+getText();
+
 function getText() {
 
-    return "When you realize WWIII isn't a game";
+    Thetext = "When you realize WWIII isn't a game";
 
 }
 
@@ -59,7 +45,7 @@ T.post('media/upload', {
     // now we can assign alt text to the media, for use by screen readers and
     // other text-based presentations and interpreters
     var mediaIdStr = data.media_id_string
-    var altText = ""
+    var altText = "Small flowers in a planter on a sunny balcony, blossoming."
     var meta_params = {
         media_id: mediaIdStr,
         alt_text: {
@@ -71,7 +57,7 @@ T.post('media/upload', {
         if (!err) {
             // now we can reference the media and post a tweet (media will attach to the tweet)
             var params = {
-                status: getText(),
+                status: Thetext,
                 media_ids: [mediaIdStr]
             }
 
@@ -82,10 +68,3 @@ T.post('media/upload', {
     })
 })
 }
-
-
-
-
-setTimeout(() => {
-    post();
-}, 15000);
