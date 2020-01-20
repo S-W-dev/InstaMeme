@@ -45,7 +45,7 @@ function getMeme() {
                      return await Jimp.loadFont(Jimp.FONT_SANS_32_WHITE);
                  })
                  .then(async function (font) {
-                     await loadedImage.print(font, 0, 0, JimpText).write('googlee.png');
+                     await loadedImage.print(font, loadedImage.bitmap.height/2, 0, JimpText.text).write('googlee.png');
                   })
                  .catch(function (err) {
                      console.error(err);
