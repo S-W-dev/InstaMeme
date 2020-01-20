@@ -5,15 +5,22 @@ const request = require('request');
 const keys = require('./keys')
 const Jimp = require("jimp");
 
-var arr = require('./MemeText.json');
-var arr2 = require('./MemeImageLinks.json');
-var Thetext = "skrt";
+let arr = require('./MemeText.json');
+let arr2 = require('./MemeImageLinks.json');
+let Thetext = "";
+let b64content;
+let loadedImage;
+let Thelink;
+let T = new Twit(keys.keys)
+
+getText();
+getLink();
+getMeme();
 
 function random(mn, mx) {
         return Math.random() * (mx - mn) + mn;
 }
-var Thelink;
-var download = function (uri, filename, callback) {
+function download(uri, filename, callback) {
         request.head(uri, function (err, res, body) {
             ////console.log('content-type:', res.headers['content-type']);
             ////console.log('content-length:', res.headers['content-length']);
@@ -21,14 +28,6 @@ var download = function (uri, filename, callback) {
             request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
         });
 };
-let T = new Twit(keys.keys)
-var b64content;
-var loadedImage;
-
-getText();
-getLink();
-getMeme();
-
 function getMeme() {
         download(Thelink, 'google.png', function () {
             ////console.log('done downloading')
@@ -60,29 +59,21 @@ function getMeme() {
             }, 2000);
         });
 }
-
-
 function getText() {
 
     Thetext = arr.text[Math.floor(random(1, arr.text.length))-1];
     //////console.log(Thetext)
 
 }
-
 function getLink() {
-
     Thelink = arr2.links[Math.floor(random(1, arr2.links.length))-1];
     //////console.log(Thelink);
 
 }
-
 function post() {
-// first we must post the media to Twitter
 T.post('media/upload', {
     media_data: b64content
 }, function (err, data, response) {
-    // now we can assign alt text to the media, for use by screen readers and
-    // other text-based presentations and interpreters
     var mediaIdStr = data.media_id_string
     var altText = "A funny meme."
     var meta_params = {
@@ -94,14 +85,12 @@ T.post('media/upload', {
 
     T.post('media/metadata/create', meta_params, function (err, data, response) {
         if (!err) {
-            // now we can reference the media and post a tweet (media will attach to the tweet)
-            var params = {
+           var params = {
                 status: Thetext,
                 media_ids: [mediaIdStr]
             }
 
             T.post('statuses/update', params, function (err, data, response) {
-                ////console.log(data)
                 console.log(data.text);
             })
         }
