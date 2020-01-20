@@ -1,8 +1,10 @@
 import os
 import discord
 from imagescraper import *
+from dotenv import load_dotenv
+load_dotenv()
 
-token = "NjY4Njg1MTczNzkyOTY0NjI5.XiYPsQ.2l0f0Z4DbOe_dqd_ntFYXKYCwXQ"
+token = os.getenv(TOKEN)
 
 client = discord.Client()
 
