@@ -32,21 +32,27 @@ getMeme();
 function getMeme() {
         download(Thelink, 'google.png', function () {
             ////console.log('done downloading');
+            let JimpText = {
+              text:"",
+              alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+              alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM
+            }
+            JimpText.text=Thetext;
+
              Jimp.read('google.png')
-                 .then(function (image) {
+                 .then(async function (image) {
                      loadedImage = image;
-                     return Jimp.loadFont(Jimp.FONT_SANS_64_WHITE);
+                     return await Jimp.loadFont(Jimp.FONT_SANS_32_WHITE);
                  })
-                 .then(function (font) {
-                     loadedImage.print(font, Jimp.HORIZONTAL_ALIGN_CENTER, Jimp.VERTICAL_ALIGN_BOTTOM, Thetext)
-                         .write('googlee.png');
-                 })
+                 .then(async function (font) {
+                     await loadedImage.print(font, 0, 0, JimpText).write('googlee.png');
+                  })
                  .catch(function (err) {
                      console.error(err);
                  });
 
             setTimeout(()=>{
-                
+
                     b64content = fs.readFileSync('./googlee.png', {
                         encoding: 'base64'
                     })
