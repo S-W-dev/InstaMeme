@@ -2,7 +2,7 @@ import os
 import discord
 from imagescraper import *
 
-token = "NjY4Njg1MTczNzkyOTY0NjI5.XiXg2A.UAjA_Wu6OIuoJgc8A0heyR4Oybk"
+token = "NjY4MjYzMDg4OTc3MzQ2NjAy.XiXhJQ.VrXiPOTUFIUWjxBQqnHpqbzxRM0"
 
 client = discord.Client()
 
