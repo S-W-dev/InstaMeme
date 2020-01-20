@@ -6,6 +6,7 @@
   "dependencies": {
     "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
     "fs": "^0.0.1-security",
+    "jimp": "^0.9.3",
     "random-puppy": "^1.1.0",
     "twit": "^2.2.11",
     "winston": "^3.2.1"

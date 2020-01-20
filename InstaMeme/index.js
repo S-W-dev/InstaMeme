@@ -3,10 +3,13 @@ const fs = require('fs');
 const puppy = require('random-puppy');
 const request = require('request');
 const keys = require('./keys')
+const Jimp = require("jimp");
 
 var arr = require('./MemeText.json');
 var arr2 = require('./MemeImageLinks.json');
-    function random(mn, mx) {
+var Thetext = "skrt";
+
+function random(mn, mx) {
         return Math.random() * (mx - mn) + mn;
 }
 var thelink;
@@ -20,10 +23,24 @@ var download = function (uri, filename, callback) {
 };
 let T = new Twit(keys.keys)
 var b64content;
+var loadedImage;
 function getMeme() {
     puppy().then(url => {
         download(Thelink, 'google.png', function () {
             ////console.log('done downloading');
+            Jimp.read('google.png')
+            .then(function (image) {
+                loadedImage = image;
+                return Jimp.loadFont(Jimp.FONT_SANS_64_WHITE);
+            })
+            .then(function (font) {
+                loadedImage.print(font, Jimp.HORIZONTAL_ALIGN_CENTER, Jimp.VERTICAL_ALIGN_BOTTOM, Thetext)
+                           .write('google.png');
+            })
+            .catch(function (err) {
+                console.error(err);
+            });
+
             b64content = fs.readFileSync('./google.png', {
                 encoding: 'base64'
             })
@@ -34,10 +51,9 @@ function getMeme() {
 
 }
 
-var Thetext = "skrt";
-getMeme();
 getText();
-getLink()
+getMeme();
+getLink();
 
 function getText() {
 
@@ -61,7 +77,7 @@ T.post('media/upload', {
     // now we can assign alt text to the media, for use by screen readers and
     // other text-based presentations and interpreters
     var mediaIdStr = data.media_id_string
-    var altText = "A meme"
+    var altText = "A funny meme."
     var meta_params = {
         media_id: mediaIdStr,
         alt_text: {
