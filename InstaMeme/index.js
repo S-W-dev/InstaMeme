@@ -28,45 +28,51 @@ function download(uri, filename, callback) {
         });
 };
 function getMeme() {
-        download(Thelink, 'google.png', function () {
-            ////console.log('done downloading')
+        try {
+          download(Thelink, 'google.png', function () {
+              ////console.log('done downloading')
 
-             Jimp.read('google.png')
-                 .then(async function (image) {
-                     loadedImage = image;
-                     return await Jimp.loadFont('./InstaMeme/ComicSans.fnt');
-                 })
-                 .then(async function (font) {
-                   textWidth = Jimp.measureText(font, Thetext);
-                   textHeight = Jimp.measureTextHeight(font, Thetext);
-                     if(textWidth > loadedImage.bitmap.width - 50) {
-                       await loadedImage.resize(textWidth+50,Jimp.AUTO);
-                     } else if (textWidth < loadedImage.bitmap.width/2) {
-                       await loadedImage.resize(textWidth*2,Jimp.AUTO);
-                     }
-                     var cover = await Jimp.read(textWidth+6, textHeight+4, 0x00000088);
-                     loadedImage.blit(cover,(loadedImage.bitmap.width/2)-(textWidth/2)-3,loadedImage.bitmap.height-50-2);
-                     await loadedImage.print(font, (loadedImage.bitmap.width/2)-(textWidth/2), loadedImage.bitmap.height-50, Thetext).write('googlee.png');
-                     var data = await fs.readFileSync('./InstaMeme/MemeImageLinks.json');
-                     var json = await JSON.parse(data);
-                     var links = json.links;
-                     json.links = await links.filter((link) => { return link !== Thelink });
-                     await fs.writeFileSync('./InstaMeme/MemeImageLinks.json', JSON.stringify(json, null, 2));
-                  })
-                 .catch(function (err) {
-                     console.error(err);
-                 });
-
-            setTimeout(()=>{
-
-                    b64content = fs.readFileSync('googlee.png', {
-                        encoding: 'base64'
+               Jimp.read('google.png')
+                   .then(async function (image) {
+                       loadedImage = image;
+                       return await Jimp.loadFont('./InstaMeme/ComicSans.fnt');
+                   })
+                   .then(async function (font) {
+                     textWidth = Jimp.measureText(font, Thetext);
+                     textHeight = Jimp.measureTextHeight(font, Thetext);
+                       if(textWidth > loadedImage.bitmap.width - 50) {
+                         await loadedImage.resize(textWidth+50,Jimp.AUTO);
+                       } else if (textWidth < loadedImage.bitmap.width/2) {
+                         await loadedImage.resize(textWidth*2,Jimp.AUTO);
+                       }
+                       var back = await Jimp.read(loadedImage.bitmap.width, loadedImage.bitmap.height+textHeight+4, 0x000000FF);
+                       loadedImage = await back.blit(loadedImage,0,0);
+                       await loadedImage.print(font, (loadedImage.bitmap.width/2)-(textWidth/2), loadedImage.bitmap.height-textHeight-4, Thetext).write('googlee.png');
+                       var data = await fs.readFileSync('./InstaMeme/MemeImageLinks.json');
+                       var json = await JSON.parse(data);
+                       var links = json.links;
+                       json.links = await links.filter((link) => { return link !== Thelink });
+                       await fs.writeFileSync('./InstaMeme/MemeImageLinks.json', JSON.stringify(json, null, 2));
                     })
+                   .catch(function (err) {
+                       console.error(err);
+                   });
 
-                post();
+              setTimeout(()=>{
 
-            }, 1000);
-        });
+                      b64content = fs.readFileSync('googlee.png', {
+                          encoding: 'base64'
+                      })
+
+                  post();
+
+              }, 1000);
+          });
+        } catch(err) {
+          console.error(err)
+          console.log("There was an error getting the meme. Please try again.");
+        }
+
 }
 function getText() {
 
