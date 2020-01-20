@@ -38,10 +38,17 @@ function getMeme() {
                  })
                  .then(async function (font) {
                    textWidth = Jimp.measureText(font, Thetext);
-                     if(Jimp.measureText(font, Thetext) > loadedImage.bitmap.width - 50) {
+                     if(textWidth > loadedImage.bitmap.width - 50) {
                        await loadedImage.resize(textWidth+50,Jimp.AUTO);
+                     } else if (textWidth < loadedImage.bitmap.width/2) {
+                       await loadedImage.resize(textWidth*2,Jimp.AUTO);
                      }
                      await loadedImage.print(font, (loadedImage.bitmap.width/2)-(textWidth/2), loadedImage.bitmap.height-50, Thetext).write('googlee.png');
+                     var data = await fs.readFileSync('./MemeImageLinks.json');
+                     var json = await JSON.parse(data);
+                     var links = json.links;
+                     json.links = await links.filter((link) => { return link !== Thelink });
+                     await fs.writeFileSync('./MemeImageLinks.json', JSON.stringify(json, null, 2));
                   })
                  .catch(function (err) {
                      console.error(err);
