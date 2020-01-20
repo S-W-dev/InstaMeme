@@ -38,11 +38,14 @@ function getMeme() {
                  })
                  .then(async function (font) {
                    textWidth = Jimp.measureText(font, Thetext);
+                   textHeight = Jimp.measureTextHeight(font, Thetext);
                      if(textWidth > loadedImage.bitmap.width - 50) {
                        await loadedImage.resize(textWidth+50,Jimp.AUTO);
                      } else if (textWidth < loadedImage.bitmap.width/2) {
                        await loadedImage.resize(textWidth*2,Jimp.AUTO);
                      }
+                     var cover = await Jimp.read(textWidth+6, textHeight+4, 0x00000088);
+                     loadedImage.blit(cover,(loadedImage.bitmap.width/2)-(textWidth/2)-3,loadedImage.bitmap.height-50-2);
                      await loadedImage.print(font, (loadedImage.bitmap.width/2)-(textWidth/2), loadedImage.bitmap.height-50, Thetext).write('googlee.png');
                      var data = await fs.readFileSync('./InstaMeme/MemeImageLinks.json');
                      var json = await JSON.parse(data);
