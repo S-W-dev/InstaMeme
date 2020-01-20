@@ -77,10 +77,7 @@ T.post('media/upload', {
     var mediaIdStr = data.media_id_string
     var altText = "A funny meme."
     var meta_params = {
-        media_id: mediaIdStr,
-        alt_text: {
-            text: altText
-        }
+        media_id: mediaIdStr
     }
 
     T.post('media/metadata/create', meta_params, function (err, data, response) {
