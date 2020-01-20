@@ -31,13 +31,7 @@ getMeme();
 
 function getMeme() {
         download(Thelink, 'google.png', function () {
-            ////console.log('done downloading');
-            let JimpText = {
-              text:"",
-              alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
-              alignmentY: Jimp.VERTICAL_ALIGN_BOTTOM
-            }
-            JimpText.text=Thetext;
+            ////console.log('done downloading')
 
              Jimp.read('google.png')
                  .then(async function (image) {
@@ -45,7 +39,11 @@ function getMeme() {
                      return await Jimp.loadFont(Jimp.FONT_SANS_32_WHITE);
                  })
                  .then(async function (font) {
-                     await loadedImage.print(font, loadedImage.bitmap.height/2, 0, JimpText.text).write('googlee.png');
+                   textWidth = Jimp.measureText(font, Thetext);
+                     if(Jimp.measureText(font, Thetext) > loadedImage.bitmap.width - 50) {
+                       await loadedImage.resize(textWidth+50,Jimp.AUTO);
+                     }
+                     await loadedImage.print(font, (loadedImage.bitmap.width/2)-(textWidth/2), loadedImage.bitmap.height-50, Thetext).write('googlee.png');
                   })
                  .catch(function (err) {
                      console.error(err);
