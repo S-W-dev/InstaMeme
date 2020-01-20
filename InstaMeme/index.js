@@ -34,7 +34,7 @@ function getMeme() {
              Jimp.read('google.png')
                  .then(async function (image) {
                      loadedImage = image;
-                     return await Jimp.loadFont(Jimp.FONT_SANS_32_WHITE);
+                     return await Jimp.loadFont('ComicSans.fnt');
                  })
                  .then(async function (font) {
                    textWidth = Jimp.measureText(font, Thetext);
