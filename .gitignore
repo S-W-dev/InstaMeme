@@ -6,3 +6,5 @@ web scraper/chromedriver.exe
 *.log
 *.pyc
 googlee.png
+InstaMeme/MemeImageLinks.json
+InstaMeme/startsweeper.bat

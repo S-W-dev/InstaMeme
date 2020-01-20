@@ -16,7 +16,6 @@ let T = new Twit(keys.keys)
 getText();
 getLink();
 getMeme();
-
 function random(mn, mx) {
         return Math.random() * (mx - mn) + mn;
 }
@@ -39,10 +38,8 @@ function getMeme() {
                  })
                  .then(async function (font) {
                    textWidth = Jimp.measureText(font, Thetext);
-                     if(textWidth > loadedImage.bitmap.width - 50) {
+                     if(Jimp.measureText(font, Thetext) > loadedImage.bitmap.width - 50) {
                        await loadedImage.resize(textWidth+50,Jimp.AUTO);
-                     } else if(textWidth < loadedImage.bitmap.width/3) {
-                       await loadedImage.resize(textWidth*3,Jimp.AUTO,Jimp.RESIZE_BEZIER);
                      }
                      await loadedImage.print(font, (loadedImage.bitmap.width/2)-(textWidth/2), loadedImage.bitmap.height-50, Thetext).write('googlee.png');
                   })
