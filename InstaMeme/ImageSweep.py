@@ -2,7 +2,7 @@ import os
 import discord
 from imagescraper import *
 
-token = "NjY4Njg1MTczNzkyOTY0NjI5.XiU5pA.kzEe6dJR3249btKgGUCBy6ILNbo"
+token = "NjY4Njg1MTczNzkyOTY0NjI5.XiXXQA.GurXt-CGQ7-ImTZaIjEDRaiz_SY"
 
 client = discord.Client()
 
@@ -17,7 +17,7 @@ async def on_message(message):
         return
 
     if ("!c" in message.content):
-        m = message.content.split(' ')
+        m = message.content.split(', ')
         await message.channel.send("Searching for "+m[2]+"images that include '" + m[1]+"'")
         response = fetch_image_urls(m[1], int(m[2]), webdriver.Chrome(executable_path="./chromedriver.exe"))
         print(str(response))
