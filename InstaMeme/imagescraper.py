@@ -2,6 +2,11 @@ import selenium
 import requests
 from selenium import webdriver
 import time
+import json
+
+def write_json(data, filename='MemeImageLinks.json'):
+    with open(filename,'w') as f:
+        json.dump(data, f, indent=4)
 
 def fetch_image_urls(query:str, max_links_to_fetch:int, wd:webdriver, sleep_between_interactions:int=1):
     def scroll_to_end(wd):
@@ -9,7 +14,7 @@ def fetch_image_urls(query:str, max_links_to_fetch:int, wd:webdriver, sleep_betw
         time.sleep(sleep_between_interactions)
 
     # build the google query
-    search_url = "https://www.google.com/search?safe=off&site=&tbm=isch&source=hp&q={q}&oq={q}&gs_l=img"
+    search_url = "https://www.google.com/search?safe=on&site=&tbm=isch&source=hp&q={q}&oq={q}&gs_l=img"
 
     # load the page
     wd.get(search_url.format(q=query))
@@ -38,7 +43,7 @@ def fetch_image_urls(query:str, max_links_to_fetch:int, wd:webdriver, sleep_betw
             actual_images = wd.find_elements_by_css_selector('img.irc_mi')
             for actual_image in actual_images:
                 if actual_image.get_attribute('src'):
-                    image_urls.add(actual_image.get_attribute('src'))
+                        image_urls.add(actual_image.get_attribute('src'))
 
             image_count = len(image_urls)
 
@@ -54,8 +59,12 @@ def fetch_image_urls(query:str, max_links_to_fetch:int, wd:webdriver, sleep_betw
 
         # move the result startpoint further down
         results_start = len(thumbnail_results)
+        with open('MemeImageLinks.json') as json_file:
+            data = json.load(json_file)
+            temp = data['links']
+            for i in image_urls:
+                temp.append(i)
+            write_json(data)
 
-    return image_urls
-
-print(fetch_image_urls(input("Enter an image search >>> "), int(input("Enter the amount of links to fetch >>> ")), webdriver.Chrome(executable_path="./chromedriver.exe")))
+fetch_image_urls(input("Enter an image search >>> "), int(input("Enter the amount of links to fetch >>> ")), webdriver.Chrome(executable_path="./chromedriver.exe"))
 end = input("Press enter to end...")
