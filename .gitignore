@@ -3,3 +3,6 @@ keys.js
 google.png
 auth.json
 web scraper/chromedriver.exe
+*.log
+*.pyc
+googlee.png

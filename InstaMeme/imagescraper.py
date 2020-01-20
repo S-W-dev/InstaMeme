@@ -65,5 +65,5 @@ def fetch_image_urls(query:str, max_links_to_fetch:int, wd:webdriver, sleep_betw
             for i in image_urls:
                 temp.append(i)
             write_json(data)
+        return image_urls
 
-fetch_image_urls(input("Enter an image search >>> "), int(input("Enter the amount of links to fetch >>> ")), webdriver.Chrome(executable_path="./chromedriver.exe"))

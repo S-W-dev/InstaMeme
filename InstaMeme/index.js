@@ -63,6 +63,9 @@ function getMeme() {
 }
 function getText() {
 
+    arr = require('./MemeText.json');
+    arr2 = require('./MemeImageLinks.json');
+
     Thetext = arr.text[Math.floor(random(1, arr.text.length))-1];
     //////console.log(Thetext)
 
