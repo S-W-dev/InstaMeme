@@ -56,7 +56,7 @@ function getMeme() {
 
                 post();
 
-            }, 2000);
+            }, 1000);
         });
 }
 function getText() {

@@ -49,18 +49,19 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 var final_text;
                 execute("node ./InstaMeme/index.js", (output) => {
+                    console.time("get message");
                     console.log(output);
                     final_text = output;
-                });
-                setTimeout(() => {
+                    console.timeEnd("get message");
                     console.log('sending message: ' + final_text);
                     bot.sendMessage({
                         to: channelID,
                         message: final_text
                     });
-                }, 5000)
+                })
                 break;
                 // Just add any case commands if you want to..
         }
+        
     }
 });
