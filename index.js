@@ -48,16 +48,18 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     message: 'Generating meme... Visit this link to see a bunch of other memes: https://twitter.com/InstaMeme7'
                 });
                 var final_text;
+                console.time("get message");
                 execute("node ./InstaMeme/index.js", (output) => {
-                    console.time("get message");
+                    
                     console.log(output);
                     final_text = output;
-                    console.timeEnd("get message");
+                    
                     console.log('sending message: ' + final_text);
                     bot.sendMessage({
                         to: channelID,
                         message: final_text
                     });
+                    console.timeEnd("get message");
                 })
                 break;
                 // Just add any case commands if you want to..

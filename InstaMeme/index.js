@@ -34,7 +34,7 @@ function getMeme() {
              Jimp.read('google.png')
                  .then(async function (image) {
                      loadedImage = image;
-                     return await Jimp.loadFont('ComicSans.fnt');
+                     return await Jimp.loadFont('./InstaMeme/ComicSans.fnt');
                  })
                  .then(async function (font) {
                    textWidth = Jimp.measureText(font, Thetext);
@@ -44,11 +44,11 @@ function getMeme() {
                        await loadedImage.resize(textWidth*2,Jimp.AUTO);
                      }
                      await loadedImage.print(font, (loadedImage.bitmap.width/2)-(textWidth/2), loadedImage.bitmap.height-50, Thetext).write('googlee.png');
-                     var data = await fs.readFileSync('./MemeImageLinks.json');
+                     var data = await fs.readFileSync('./InstaMeme/MemeImageLinks.json');
                      var json = await JSON.parse(data);
                      var links = json.links;
                      json.links = await links.filter((link) => { return link !== Thelink });
-                     await fs.writeFileSync('./MemeImageLinks.json', JSON.stringify(json, null, 2));
+                     await fs.writeFileSync('./InstaMeme/MemeImageLinks.json', JSON.stringify(json, null, 2));
                   })
                  .catch(function (err) {
                      console.error(err);
@@ -56,7 +56,7 @@ function getMeme() {
 
             setTimeout(()=>{
 
-                    b64content = fs.readFileSync('./googlee.png', {
+                    b64content = fs.readFileSync('googlee.png', {
                         encoding: 'base64'
                     })
 
