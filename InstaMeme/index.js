@@ -12,7 +12,7 @@ var Thetext = "skrt";
 function random(mn, mx) {
         return Math.random() * (mx - mn) + mn;
 }
-var thelink;
+var Thelink;
 var download = function (uri, filename, callback) {
         request.head(uri, function (err, res, body) {
             ////console.log('content-type:', res.headers['content-type']);
@@ -24,36 +24,39 @@ var download = function (uri, filename, callback) {
 let T = new Twit(keys.keys)
 var b64content;
 var loadedImage;
-function getMeme() {
-    puppy().then(url => {
-        download(Thelink, 'google.png', function () {
-            ////console.log('done downloading');
-            Jimp.read('google.png')
-            .then(function (image) {
-                loadedImage = image;
-                return Jimp.loadFont(Jimp.FONT_SANS_64_WHITE);
-            })
-            .then(function (font) {
-                loadedImage.print(font, Jimp.HORIZONTAL_ALIGN_CENTER, Jimp.VERTICAL_ALIGN_BOTTOM, Thetext)
-                           .write('google.png');
-            })
-            .catch(function (err) {
-                console.error(err);
-            });
-
-            b64content = fs.readFileSync('./google.png', {
-                encoding: 'base64'
-            })
-            post();
-        });
-
-    })
-
-}
 
 getText();
-getMeme();
 getLink();
+getMeme();
+
+function getMeme() {
+        download(Thelink, 'google.png', function () {
+            ////console.log('done downloading');
+             Jimp.read('google.png')
+                 .then(function (image) {
+                     loadedImage = image;
+                     return Jimp.loadFont(Jimp.FONT_SANS_64_WHITE);
+                 })
+                 .then(function (font) {
+                     loadedImage.print(font, Jimp.HORIZONTAL_ALIGN_CENTER, Jimp.VERTICAL_ALIGN_BOTTOM, Thetext)
+                         .write('googlee.png');
+                 })
+                 .catch(function (err) {
+                     console.error(err);
+                 });
+
+            setTimeout(()=>{
+                
+                    b64content = fs.readFileSync('./googlee.png', {
+                        encoding: 'base64'
+                    })
+
+                post();
+
+            }, 2000);
+        });
+}
+
 
 function getText() {
 
