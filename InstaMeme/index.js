@@ -35,7 +35,7 @@ function getMeme() {
                Jimp.read('google.png')
                    .then(async function (image) {
                        loadedImage = image;
-                       return await Jimp.loadFont('./InstaMeme/ComicSans.fnt');
+                       return await Jimp.loadFont('ComicSans.fnt');
                    })
                    .then(async function (font) {
                      textWidth = Jimp.measureText(font, Thetext);
@@ -45,14 +45,19 @@ function getMeme() {
                        } else if (textWidth < loadedImage.bitmap.width/2) {
                          await loadedImage.resize(textWidth*2,Jimp.AUTO);
                        }
-                       var back = await Jimp.read(loadedImage.bitmap.width, loadedImage.bitmap.height+textHeight+4, 0x000000FF);
+                       var stringarr = Thetext.split("\n");
+                       console.log(stringarr);
+                       console.log(Thetext);
+                       var back = await Jimp.read(loadedImage.bitmap.width, loadedImage.bitmap.height+textHeight*stringarr.length+4, 0x000000FF);
                        loadedImage = await back.blit(loadedImage,0,0);
-                       await loadedImage.print(font, (loadedImage.bitmap.width/2)-(textWidth/2), loadedImage.bitmap.height-textHeight-4, Thetext).write('googlee.png');
-                       var data = await fs.readFileSync('./InstaMeme/MemeImageLinks.json');
+                       for(var i = stringarr.length; i > 0; i--){
+                          await loadedImage.print(font, (loadedImage.bitmap.width/2)-(textWidth/2), loadedImage.bitmap.height-textHeight*i-4, stringarr[stringarr.length-i]).write('googlee.png');
+                       }
+                       var data = await fs.readFileSync('MemeImageLinks.json');
                        var json = await JSON.parse(data);
                        var links = json.links;
                        json.links = await links.filter((link) => { return link !== Thelink });
-                       await fs.writeFileSync('./InstaMeme/MemeImageLinks.json', JSON.stringify(json, null, 2));
+                       await fs.writeFileSync('MemeImageLinks.json', JSON.stringify(json, null, 2));
                     })
                    .catch(function (err) {
                        console.error(err);
