@@ -46,12 +46,15 @@ function getMeme() {
                          await loadedImage.resize(textWidth*2,Jimp.AUTO);
                        }
                        var stringarr = Thetext.split("\n");
-                       console.log(stringarr);
-                       console.log(Thetext);
                        var back = await Jimp.read(loadedImage.bitmap.width, loadedImage.bitmap.height+textHeight*stringarr.length+4, 0x000000FF);
                        loadedImage = await back.blit(loadedImage,0,0);
                        for(var i = stringarr.length; i > 0; i--){
-                          await loadedImage.print(font, (loadedImage.bitmap.width/2)-(textWidth/2), loadedImage.bitmap.height-textHeight*i-4, stringarr[stringarr.length-i]).write('googlee.png');
+                          if(stringarr.length > 1) {
+                            await loadedImage.print(font, 10, loadedImage.bitmap.height-textHeight*i-4, stringarr[stringarr.length-i]).write('googlee.png');
+                          } else {
+                            await loadedImage.print(font, (loadedImage.bitmap.width/2)-(textWidth/2), loadedImage.bitmap.height-textHeight*i-4, stringarr[stringarr.length-i]).write('googlee.png');
+                          }
+
                        }
                        var data = await fs.readFileSync('MemeImageLinks.json');
                        var json = await JSON.parse(data);
@@ -106,7 +109,7 @@ T.post('media/upload', {
     T.post('media/metadata/create', meta_params, function (err, data, response) {
         if (!err) {
            var params = {
-                status: Thetext,
+                status: "Click the image to view meme",
                 media_ids: [mediaIdStr]
             }
 
